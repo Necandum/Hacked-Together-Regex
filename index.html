@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            td{
+                padding:0.1em 0.6em;
+            }
+           tbody tr:nth-child(2n+1){
+                background-color: antiquewhite;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <label>Macrodroid Log File: <input type='file'/></label>
+        <br>
+        <select>
+        
+        </select>
+<br>
+<br>
+<form>
+    <label>Name: <input type='text' data-object-field="name"></input></label>
+    <label>Regex: <textarea rows="6" cols="80" data-object-field="regex"></textarea></label>
+    <br>
+    <br>
+    <button type="button" data-button-function="run">Run</button>
+    <button type="button" data-button-function='save'>Save</button>
+    <button type="button" data-button-function='remove'>Remove</button>
+    <br><br>
+    <button type="button" data-button-function='download'>Download</button>
+    <input type='text' data-object-field="csvName">
+    <label>Include Headers: <input type="checkbox" checked="true"/></label>
+</form>
+
+<br>
+<br>
+    
+    <table>
+        
+    </table>
+    <script src="parse.js"></script>
+    </body>
+    </html>
