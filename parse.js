@@ -56,7 +56,19 @@ regexPattern$.addEventListener("input",(ev)=>{
 fileInput$.addEventListener("change",(ev)=>loadFile());
 document.querySelector("button[data-button-function='run']").addEventListener("click",()=>loadFile());
 
-document.querySelector("button[data-button-function='download']").addEventListener("click",()=>downloadFile(csvMaker(CurrentData),`CSV ${document.querySelector("input[data-object-field='csvName']").value}.csv`));
+document.querySelector("button[data-button-function='download']").addEventListener("click",()=>{
+        let title = `CSV ${document.querySelector("input[data-object-field='csvName']").value}.csv`;
+        let data = Array.from(CurrentData);
+        if( document.querySelector("input[type='checkbox']").checked){ 
+            let paddedHeaderRow =[]
+            for(let i=0;i<CurrentData.headings.length;i++){
+                paddedHeaderRow.push(CurrentData.headings[i].padEnd(data[0][i].length));
+            }
+            data.unshift(paddedHeaderRow);
+            }
+        let csv = csvMaker(data);
+        downloadFile(csv,title);
+    });
 
 
 
@@ -84,7 +96,7 @@ function parseFile(text){
      for(const heading in resultArray[0].groups){
         niceData.headings.push(heading);
      }
-     if( document.querySelector("input[type='checkbox']").checked) niceData.push(niceData.headings);
+     
     for(const result of resultArray){
         let row=[]
         for(const groupName of niceData.headings){
@@ -130,10 +142,11 @@ function csvMaker(arr=[]){
     for(const row of arr){
         for(let col of row){
             col = (col) ? col:"";
-           data += `"${col.toString().replace(/"/g,'""')}",`
+           data += `"${col.toString().replace(/"/g,'""')}\t",`
             //   data += `${col.toString().replace(/"/g,'""')},` // comp creator appears not to like escaped values
         }
-        data+="\n"
+        data=data.slice(0,-1)
+        data+="\r\n";
     }
     let blob = new Blob([data],{type:"data:text/csv;charset=utf-8,"})
     return blob
